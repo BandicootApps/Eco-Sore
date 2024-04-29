@@ -1,0 +1,109 @@
+/* Chart.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    background-image: url('./images/ocean-sand.png');
+    background-size: cover;
+}
+
+.main-container {
+    display: block;
+    text-align: center;
+    justify-content: center;
+    background-color: rgba(239, 248, 254, 1);     
+    padding: 50px;
+    margin: 400px 900px;
+    border-radius: 100px;
+    border: solid lightgray 3px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+#eco-image {
+    display: block;
+    margin-top: 100px;
+    margin-bottom: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 500px;
+    width: auto;
+    border-radius: 100px;
+    border: lightgrey solid 1px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.total-score {
+    display: block;
+    text-align: center;
+    font-size: 8em;
+    margin-bottom: 200px;
+}
+
+.charts-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 200px;
+}
+
+.donutChart-container {
+    height: 1000px;
+    width: 1000px;
+    padding: 50px;
+}
+
+.barChart-container {
+    height: 1000px;
+    width: 2000px;
+    padding: 50px;
+    margin-right: 50px;
+}
+
+.text-container {
+    margin: auto 600px;
+
+}
+
+
+.text-container h2 {
+    font-size: 6em;
+    text-align: left;
+}
+
+.text-container p {
+    font-size: 4em;
+    text-align: left;
+}
+
+
+#tc-title {
+    text-align: center;
+    font-size: 7em;
+
+}
+
+#footer-text {
+    text-align: center;
+    font-size: 4em;
+    margin-top: 200px;
+}
+
+
+
+#downloadPdfButton {
+    height: 200px;
+    width: 1800px;
+    font-size: 4em;
+    margin: 60px;
+    border-radius: 50px;
+    border: lightgrey solid 3px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+#downloadPdfButton:hover {
+    background-color: #B6FBFC;
+}

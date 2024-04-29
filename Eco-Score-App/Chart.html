@@ -1,0 +1,118 @@
+<!-- Chart.html -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Dashboard</title>
+    <link rel="stylesheet" href="Chart.css">
+    <style>
+        /* Add CSS styles to make specific text less bold */
+        .less-bold {
+            font-weight: normal; /* Set font-weight to normal (less bold) */
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container" id="main-container">
+        <!-- Create a main container to hold everything -->
+
+        <img id="eco-image" src="images/Ecodownunder.jpg" alt="...">
+
+        <div class="content-container">
+            <!-- Title box -->
+
+        <h1 class="total-score">Your Bed & Bath Sustainability Score: <span id="average-score">Calculating...</span></h1>
+
+
+        <!-- Charts container -->
+        <div class="charts-container">
+            <div class="barChart-container">
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="donutChart-container">    
+                <canvas id="donutChart"></canvas>
+            </div>
+        </div>
+
+
+
+
+        <div class="text-container">
+        
+            <h2 id="tc-title">About Sustainability</h2>
+            <main class="paragraphs">
+                <section class="text-section">
+                    <h2>Synthetics <span class="less-bold">(e.g. polyester or microfibre pillows and quilts)</span></h2>
+                    <p>
+                        The most common synthetic used in textiles is polyester, which is plastic fiber. Polyester breaks up into microplastics every time you shake synthetic pillows/quilts, and they float in the air you breathe. Microplastics also get into the environment during every wash cycle through wastewater to the ocean and ultimately end up in the food chain. There is currently no viable way to recycle polyester quilts and pillows, so inevitably, they end up in a landfill. Polyester or microfibers are simply not sustainable. Replacing synthetics with natural fibers is the single biggest step you can take to improve your bed and bath sustainability score.
+                    </p>
+                </section>
+        
+                <section class="text-section">
+                    <h2>Synthetic/Natural Blends <span class="less-bold">(e.g. polyester/cotton sheets)</span></h2>
+                    <p>
+                        In some ways, including natural fibers is better for the environment, but blended fabrics are even harder to recycle than 100% synthetics. There is currently no viable way to separate the synthetic and natural fibers for reuse.
+                    </p>
+                </section>
+        
+                <section class="text-section">
+                    <h2>Natural <span class="less-bold">(e.g. 100% cotton sheets)</span></h2>
+                    <p>
+                        Natural fibers like cotton or wool are sustainable. They are made from renewable resources and are naturally compostable if not recycled. You can also significantly improve your sleeping experience by moving to natural fibers. 100% cotton sheets are breathable and noticeably more comfortable to sleep in. No one wants to sleep on plastic!
+                    </p>
+                </section>
+        
+                <section class="text-section">
+                    <h2>Certified Organic <span class="less-bold">(e.g. 100% organic cotton towels)</span></h2>
+                    <p>
+                        Certified organic is the ultimate level of sustainability. You can be confident that no harsh chemicals have been used at any stage in the production process.
+                    </p>
+                </section>
+        
+                <section id="footer-text" class="text-section">
+                    <h3>Don't Let Perfect Get in the Way of Good. Sustainability Is a Journey. Congratulations on Your Progress!</h2>
+                </section>
+            </main>
+        
+        </div>
+        
+
+        <!-- Include Chart.js from a CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+        <!-- Include your chart scripts here -->
+        <script>
+            // Global Chart.js configuration
+            Chart.defaults.font.size = 50;
+            Chart.defaults.font.family = 'Arial, sans-serif';
+            Chart.defaults.color = '#000000'; // Set font color to black
+        </script>
+
+        <!-- Include your chart-specific JavaScript files -->
+        <script src="aBarchart.js"></script>
+        <script src="aDonutchart.js"></script>
+        <script src="aOverall.js"></script>
+    </div>
+
+    <button id="downloadPdfButton">Download as PDF</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+    <script>
+        const PdfDownload = document.getElementById("downloadPdfButton");
+
+        PdfDownload.addEventListener("click", function(){
+            let page = document.getElementById('main-container');
+            html2pdf().from(page).save('Sustainability-Score.pdf');
+        });
+    </script>
+
+   
+
+</body>
+</html>

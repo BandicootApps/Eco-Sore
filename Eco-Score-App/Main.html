@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="Main.css">
+    <style>
+        /* Add your CSS styles here */
+        .multi-element {
+            /* Add your default button styles here */
+        }
+
+        .multi-element.selected {
+            /* Add your styles for the selected button */
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+
+        <img id="eco-image" src="images/Ecodownunder.jpg" alt="Ecodownunder Image">
+
+        <div class="question-container">
+
+            <div class="text-wrapper" data-index="0">
+                <h2 class="h2-output">
+                    <span style="white-space: pre-line; overflow-wrap: break-word;">How many <span id="productNamePlaceholder">product</span> do you have?</span>
+                </h2>
+
+                <div class="text-input">
+                    <input id="text-element" step="1" placeholder="" type="number" class="e-freetxt-answer" min="0">
+                </div>
+            </div>
+
+            <div class="multi-select-wrapper" data-index="1">
+    
+                <h2 class="h2-output">
+                    <span style="white-space: pre-line; overflow-wrap: break-word;">What are your <span id="productNamePlaceholder2">product</span> made of?</span>
+                </h2>
+
+                <div class="multi-select-input">
+                    <div>
+                        <button data-response_id="2251799830019542" data-id="q2etrrq" class="multi-element btn-option">
+                            100% Synthetic (e.g. Polyester/ Microfibre)
+                            <i class="answer-radio multiple"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button data-response_id="2251799830019545" data-id="v7lnipe" class="multi-element btn-option">
+                            Natural/ Synthetic Blend (e.g. Polyester/ Cotton)
+                            <i class="answer-radio multiple"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button data-response_id="2251799830019543" data-id="99sgjse" class="multi-element btn-option">
+                            100% Natural (e.g. Cotton)
+                            <i class="answer-radio multiple"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button data-response_id="2251799830019544" data-id="jsoqu7s" class="multi-element btn-option">
+                            Organic Certified (e.g. Cotton)
+                            <i class="answer-radio multiple"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        
+
+            <div class="progress-buttons" data-index="2">
+                <button id="backButton" class="c-button-btn">Back</button>
+                <button id="skipButton" class="c-button-btn">Skip</button>
+                <button id="nextButton" class="c-button-btn" disabled>Next</button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const buttons = document.querySelectorAll('.multi-element');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Toggle the 'selected' class for the clicked button
+                    if (!this.classList.contains('selected')) {
+                        // Remove 'selected' class from all buttons
+                        buttons.forEach(btn => {
+                            btn.classList.remove('selected');
+                        });
+                        // Add 'selected' class to the clicked button
+                        this.classList.add('selected');
+                    }
+                    // Check the answers after the selection
+                    checkAnswers();
+                });
+            });
+
+            // Add event listener to the back button
+            document.getElementById("backButton").addEventListener("click", () => {
+                // Decrease the current product index to go back to the previous product
+                currentProductIndex = Math.max(currentProductIndex - 1, 0);
+                updateQuestions();
+                checkAnswers();
+            });
+        });
+
+        const products = [
+            { id: 1, name: "Towels", responses: {} },
+            { id: 2, name: "Pillows", responses: {} },
+            { id: 3, name: "Coverlets", responses: {} },
+            { id: 4, name: "Quilt Covers", responses: {} },
+            { id: 5, name: "Quilt Inserts", responses: {} },
+            { id: 6, name: "Sheets", responses: {} },
+            { id: 7, name: "Mattress Protectors", responses: {} }
+        ];
+
+        let currentProductIndex = 0;
+
+        function updateQuestions() {
+            const currentProduct = products[currentProductIndex];
+            document.getElementById("productNamePlaceholder").innerText = currentProduct.name;
+            document.getElementById("productNamePlaceholder2").innerText = currentProduct.name;
+        }
+
+        function storeAnswers() {
+            const quantityAnswer = document.getElementById("text-element").value;
+            const selectedMaterial = document.querySelector('.multi-element.selected')?.textContent.trim() || '';
+            products[currentProductIndex].responses = {
+                quantity: quantityAnswer,
+                material: selectedMaterial
+            };
+        }
+
+        // Function to check if both questions are answered
+        function areBothQuestionsAnswered() {
+            const quantityAnswer = document.getElementById("text-element").value;
+            const selectedMaterial = document.querySelector('.multi-element.selected');
+            return quantityAnswer !== "" && selectedMaterial !== null;
+        }
+
+        // Update the button state whenever an input changes
+        document.getElementById("text-element").addEventListener("input", checkAnswers);
+
+        function checkAnswers() {
+            const nextButton = document.getElementById("nextButton");
+            if (areBothQuestionsAnswered()) {
+                nextButton.disabled = false;
+            } else {
+                nextButton.disabled = true;
+            }
+        }
+
+        // Modify the "Next" button click event listener
+        document.getElementById("nextButton").addEventListener("click", () => {
+            storeAnswers();
+            currentProductIndex++;
+            if (currentProductIndex < products.length) {
+                updateQuestions();
+            } else {
+                console.log("All responses:", products);
+                const allProductsHaveResponses = products.every(product => product.responses.quantity && product.responses.material);
+                if (allProductsHaveResponses || currentProductIndex === products.length) {
+                    localStorage.setItem('productResponses', JSON.stringify(products));
+                    window.location.href = "Chart.html";
+                } else {
+                    console.log("Please provide responses for all products.");
+                }
+            }
+            document.getElementById("text-element").value = '';
+            document.querySelectorAll('.multi-element').forEach(btn => btn.classList.remove('selected'));
+            checkAnswers();
+        });
+
+        // Add a click event listener to the "Skip" button
+        document.getElementById("skipButton").addEventListener("click", () => {
+            currentProductIndex++;
+            if (currentProductIndex < products.length) {
+                updateQuestions();
+            } else {
+                console.log("All responses:", products);
+                const allProductsHaveResponses = products.every(product => product.responses.quantity && product.responses.material);
+                if (allProductsHaveResponses || currentProductIndex === products.length) {
+                    localStorage.setItem('productResponses', JSON.stringify(products));
+                    window.location.href = "Chart.html";
+                } else {
+                    console.log("Please provide responses for all products.");
+                }
+            }
+            document.getElementById("text-element").value = '';
+            document.querySelectorAll('.multi-element').forEach(btn => btn.classList.remove('selected'));
+            checkAnswers();
+        });
+
+        updateQuestions();
+        checkAnswers();
+    </script>
+</body>
+</html>
